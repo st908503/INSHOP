@@ -1,13 +1,18 @@
 import React from 'react'
 import Logo from '../assets/images/logo.png'
-import { Link } from 'react-router-dom'
+import { Link  } from 'react-router-dom'
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Header = () => {
+  const { loginWithRedirect } = useAuth0();
+  const { logout } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
+
   return (
-    <div className='flex justify-between bg-[#c4c4c4] py-3 px-20 sticky top-0 z-50'>
+    <div className='hidden md:flex justify-between bg-[#c4c4c4] py-3 px-20 sticky top-0 z-50'>
       <div className='flex items-center'>
         <img className='h-10 rounded' src={Logo} alt="" />
         <h1 className='text-2xl text-[#07484a] font-semibold ml-1'>INSHOP</h1>
@@ -39,8 +44,32 @@ const Header = () => {
           <Link to="/"><ShoppingCartIcon /></Link>
         </div>
         <div className='px-4'>
-          <Link to="/"><AccountCircleIcon /></Link>
+        <Link to="/"><AccountCircleIcon /></Link>
         </div>
+
+        <div>
+          {
+            isAuthenticated &&
+            <div>
+              <p>{user.name}</p>
+            </div>
+          }
+        </div>
+
+        {isAuthenticated
+          ?
+          (<div className='px-4'>
+            <button className='bg-[#06484a] text-white px-2 py-1 rounded' onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+             Logout
+            </button>
+          </div>)
+          : (<div className='px-4'>
+            <button className='bg-[#06484a] text-white px-2 py-1 rounded' onClick={() => loginWithRedirect()}>LOGIN</button>
+          </div>)
+
+        }
+
+
       </div>
 
     </div>
@@ -48,3 +77,6 @@ const Header = () => {
 }
 
 export default Header
+
+
+

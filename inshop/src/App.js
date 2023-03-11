@@ -7,14 +7,14 @@ import Products from './Pages/Products'
 import Categories from './Pages/Categories'
 import About from './Pages/About'
 import Contact from './Pages/Contact'
-import Navbar from './components/Navbar'
+// import Navbar from './components/Navbar'
 
 const App = () => {
   return (
 
 
     <Router>
-     <Header/>
+    <Header className = 'hidden'/>
       <Routes>
         <Route path='/' exact element={<Home />} />
         <Route path='/products' exact element={<Products />} />
